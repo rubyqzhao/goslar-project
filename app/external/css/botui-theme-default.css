@@ -1,11 +1,11 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
 body {
-    background-color: #48e1a3;
+    background-color: #342D3C;
 }
 .botui-container {
     font-size: 14px;
-    background-color: #48e1a3;
+    background-color: #342D3C;
     font-family: "Open Sans", sans-serif
 }
 
@@ -25,12 +25,12 @@ body {
     padding: 7px 13px;
     border-radius: 15px;
     color: #595a5a;
-    background-color: rgba(170, 255, 219, 0.45)
+    background-color: rgba(170, 255, 219, 0.8)
 }
 
 .botui-message-content.human {
     color: #595a5a;
-    background-color: #84ffc6
+    background-color: #6dd7a5
 }
 
 .botui-message-content.text {
