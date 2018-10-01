@@ -3,6 +3,7 @@
 body {
     background-color: #342D3C;
 }
+
 .botui-container {
     font-size: 14px;
     background-color: #342D3C;
@@ -168,4 +169,17 @@ body {
     100% {
         transform: translate(0, 0)
     }
+}
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #967db4;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #b996d7;
 }
