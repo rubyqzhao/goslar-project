@@ -25,6 +25,7 @@ button.botui-actions-buttons-button, input.botui-actions-text-input {
     line-height: normal;
     vertical-align: baseline;
     float: right;
+    width: 300px;
 
 }
 
