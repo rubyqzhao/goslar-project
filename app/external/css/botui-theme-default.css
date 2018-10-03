@@ -1,3 +1,7 @@
+/* Reference: following css code is modified version of botui-theme-default.css from BotUI 
+    https://github.com/botui/botui/tree/master/build
+*/
+
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
 
 body {
@@ -67,7 +71,7 @@ img {
     outline: 0;
     border-radius: 0;
     padding: 5px 7px;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Open Sans", sanst-serif;
     background-color: transparent;
     color: #ffffff;
     border-bottom: 1px solid #ffffff
