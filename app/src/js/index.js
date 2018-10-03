@@ -1,3 +1,5 @@
+// Reference : https://docs.botui.org/concepts.html
+
 var botui = new BotUI('flixbot');
 var username = '';
 
@@ -16,7 +18,7 @@ function greeting() {
                 setTimeout(function() {
                     getName();
                 }, 1000);
-            });
+            });f
         })
 }
 
