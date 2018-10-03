@@ -18,7 +18,7 @@ function greeting() {
                 setTimeout(function() {
                     getName();
                 }, 1000);
-            });f
+            });
         })
 }
 
