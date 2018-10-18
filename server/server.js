@@ -35,6 +35,9 @@ server.get('/dummy', function (req, res) {
 });
 
 
+//alternative titles
+
+
 server.use(function(req, res, next) {
     res.status(404).send("Sorry, not found");
 });
