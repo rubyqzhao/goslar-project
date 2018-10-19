@@ -1,4 +1,4 @@
-var express = require('express');
+lvar express = require('express');
 var request = require('request');
 var server = express();
 const bodyParser = require("body-parser");
@@ -35,7 +35,7 @@ server.get('/dummy', function (req, res) {
 });
 
 // request object to fetch data about primary Info
-var altTitleRequest = {
+var detailRequest = {
     method: "GET",
     url: "https://api.themoviedb.org/3/movie/550/primary info",
     qs: { api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1" },
@@ -48,7 +48,7 @@ var altTitleRequest = {
 };
 
 //API call to request MovieDB primary info
-server.get('/altTitle', function (req, res) {
+server.get('/detail', function (req, res) {
     request(primaryRequest, function(error, response, body) {
         if (error) throw error;
         //log to check if result is received. this result is supposed to be sent to dialogflow via res.send()
