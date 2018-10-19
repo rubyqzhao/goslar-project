@@ -47,7 +47,7 @@ var reviewRequest = {
     json: true
 };
 
-// api to call theMovieDb api to get review of the movie
+// API to call theMovieDb api to get review of the movie
 server.get('/reviews', function (req, res) {
     request(reviewRequest, function(error, response, body) {
         if (error) throw error;
