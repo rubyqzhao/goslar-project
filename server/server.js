@@ -49,7 +49,7 @@ var detailRequest = {
 
 //API call to request MovieDB primary info
 server.get('/detail', function (req, res) {
-    request(primaryRequest, function(error, response, body) {
+    request(detailRequest, function(error, response, body) {
         if (error) throw error;
         //log to check if result is received. this result is supposed to be sent to dialogflow via res.send()
         //console.log(body);
