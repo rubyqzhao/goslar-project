@@ -30,7 +30,7 @@ function getMovieId(movie, callback){
     request(getIdRequest, function(error, response, body) {
         if (error) throw error;
         results = body.results;
-        console.log()
+        console.log();
         if (results.length != 0){
             id = results[0].id;
             //console.log("calling callback with id" + id);
@@ -43,6 +43,51 @@ function getIdMessage(id, movie){
     message = "ID for " + movie + " is " + id;
     return message;
 }
+
+// function to call movieDB API to get alternative movie titles
+function getAltTitles(movie, callback){
+    altTitleRequest.url = "https://api.themoviedb.org/3/movie/" + movie + "/alternative_titles";
+    request(altTitleRequest, function(error, response, body) {
+        if (error) throw error;
+        dbTitles = body.titles;
+        output = [];
+        dbTitles.forEach(item => {
+            output.push(item.title);
+        });
+        if(output.length > 0) {
+            callback(output);
+        }
+    });
+}
+
+// function to create a displayable message for alternative titles
+function getAltTitleMsg(altTitles){
+    str = "Alternative titles include:";
+    for(var i = 0; i < altTitles.length; i++){
+        str += "\n" +  altTitles[i];
+    }
+    return str;
+}
+
+// request object to fetch data about alternative movie titles
+var altTitleRequest = {
+    method: "GET",
+    url: "",
+    qs: { api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1" },
+    headers: {
+        //authorization: "Bearer <<access_token>>",
+        "content-type": "application/json;charset=utf-8"
+    },
+    body: {},
+    json: true
+};
+
+//API call to request MovieDB alternative title info
+server.get('/altTitle', function (req, res) {
+    request(altTitleRequest, function(error, response, body) {
+
+    });
+});
 
 // sample server api
 server.post('/webhook', function (req, res) {
@@ -85,40 +130,16 @@ server.post('/webhook', function (req, res) {
             break;
 
         case "NeedAlternativeTitles":
+            getAltTitles(movie, function(altTitle){
+                msg = getAltTitleMsg(altTitle);
+                result.fulfillmentMessages[0].text.text[0] = msg;
+                res.json(result);
+            });
             break;
         
         default:
             res.json(result);
     }    
-});
-
-// request object to fetch data about alternative movie titles
-var movie_id = req.body.result.parameters.movie;
-var altTitleRequest = {
-    method: "GET",
-    url: "https://api.themoviedb.org/3/movie/" + movie_id + "/alternative_titles",
-    qs: { api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1" },
-    headers: {
-        //authorization: "Bearer <<access_token>>",
-        "content-type": "application/json;charset=utf-8"
-    },
-    body: {},
-    json: true
-};
-
-//API call to request MovieDB alternative title info
-server.get('/altTitle', function (req, res) {
-    request(altTitleRequest, function(error, response, body) {
-        if (error) throw error;
-        dbTitles = body.titles;
-        output = [];
-        dbTitles.forEach(item => {
-            output.push(item.title);
-        });
-        list = {};
-        list.altTitles = output;
-        res.send(list);
-    });
 });
 
 server.use(function(req, res, next) {
