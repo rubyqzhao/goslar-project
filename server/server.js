@@ -10,11 +10,11 @@ server.use(bodyParser.json()); // support json encoded bodies
 server.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 
-// a sample dummy request object with sample url to fetch info about 
-var dummyRequest = {
+// a sample request object with url to fetch id for movie in query param
+var getIdRequest = {
     method: "GET",
-    url: "https://api.themoviedb.org/3/movie/550",
-    qs: { api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1" },
+    url: "https://api.themoviedb.org/3/search/movie",
+    qs: { api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1", query: ""},
     headers: {
         //authorization: "Bearer <<access_token>>",
         "content-type": "application/json;charset=utf-8"
@@ -23,15 +23,73 @@ var dummyRequest = {
     json: true
 };
 
-// sample server api
-server.get('/dummy', function (req, res) {
-    // code to request moviedbapi
-    request(dummyRequest, function(error, response, body) {
+function getMovieId(movie, callback){
+    id = undefined;
+    // this line will add movie param to request 
+    getIdRequest.qs.query = movie;
+    request(getIdRequest, function(error, response, body) {
         if (error) throw error;
-        //log to check if result is received. this result is supposed to be sent to dialogflow via res.send()
-        //console.log(body);
-        res.send(body);        
+        results = body.results;
+        console.log()
+        if (results.length != 0){
+            id = results[0].id;
+            //console.log("calling callback with id" + id);
+            callback(id);
+        }
     });
+}
+
+function getIdMessage(id, movie){
+    message = "ID for " + movie + " is " + id;
+    return message;
+}
+
+// sample server api
+server.post('/webhook', function (req, res) {
+    body = req.body;
+    movie = body.queryResult.parameters.movie;
+    intent = body.queryResult.intent.displayName;
+    id = undefined;
+
+    result = {
+        "fulfillmentText" : "",
+        "fulfillmentMessages": [{
+            "text": {
+                "text": [
+                    ""
+                ]
+            }
+        }],
+        "source":""
+    };
+
+    switch(intent) {
+        case "NeedId":
+            getMovieId(movie, function(id){
+                message = getIdMessage(id, movie);
+                result.fulfillmentMessages[0].text.text[0] = message;
+                res.json(result);
+            });
+            break;
+        
+        case "NeedTrending":
+            break;
+        
+        case "NeedRating":
+            break;
+        
+        case "NeedPrimaryInfo":
+            break;
+        
+        case "NeedReleaseInfo":
+            break;
+
+        case "NeedAlternativeTitles":
+            break;
+        
+        default:
+            res.json(result);
+    }    
 });
 
 
