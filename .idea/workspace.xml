@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9f493bf9-ec66-4a78-aa2f-aab520cd0f60" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/server/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -17,10 +17,12 @@
     <session id="-1262962546">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="1" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.4" value="1" />
           <entry key="project.open.time.44" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.open.time.56" value="1" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -29,14 +31,14 @@
           <entry key="gitignore" value="1" />
           <entry key="html" value="1" />
           <entry key="js" value="1" />
-          <entry key="json" value="1" />
+          <entry key="json" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CSS" value="2" />
           <entry key="HTML" value="1" />
-          <entry key="JSON" value="1" />
+          <entry key="JSON" value="2" />
           <entry key="JavaScript" value="1" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
@@ -46,12 +48,14 @@
           <entry key="css" value="57" />
           <entry key="html" value="68" />
           <entry key="js" value="232" />
+          <entry key="json" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CSS" value="57" />
           <entry key="HTML" value="68" />
+          <entry key="JSON" value="2" />
           <entry key="JavaScript" value="232" />
         </counts>
       </usages-collector>
@@ -62,7 +66,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
+            <state>
               <caret line="22" column="7" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
             </state>
           </provider>
@@ -71,8 +75,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="283">
-              <caret line="38" column="7" lean-forward="true" selection-start-line="38" selection-start-column="7" selection-end-line="38" selection-end-column="7" />
+            <state relative-caret-position="340">
+              <caret line="100" column="14" lean-forward="true" selection-start-line="100" selection-start-column="14" selection-end-line="100" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -80,7 +84,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/external/css/botui.min.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
+            <state relative-caret-position="442">
               <caret line="26" column="17" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
             </state>
           </provider>
@@ -116,6 +120,7 @@
         <option value="$PROJECT_DIR$/app/external/css/botui-theme-default.css" />
         <option value="$PROJECT_DIR$/app/external/css/botui.min.css" />
         <option value="$PROJECT_DIR$/server/server.js" />
+        <option value="$PROJECT_DIR$/server/package.json" />
       </list>
     </option>
   </component>
@@ -125,8 +130,104 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/server/node_modules" />
+  </component>
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths>
+      <path value="$PROJECT_DIR$/server/node_modules/accepts/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/ajv/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/array-flatten/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/asn1/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/assert-plus/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/asynckit/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/aws-sign2/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/aws4/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/bcrypt-pbkdf/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/body-parser/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/bytes/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/caseless/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/co/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/combined-stream/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/content-disposition/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/content-type/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/cookie-signature/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/cookie/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/core-util-is/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/dashdash/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/debug/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/delayed-stream/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/depd/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/destroy/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/ecc-jsbn/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/ee-first/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/encodeurl/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/escape-html/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/etag/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/express/node_modules/statuses/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/express/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/extend/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/extsprintf/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/fast-deep-equal/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/fast-json-stable-stringify/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/finalhandler/node_modules/statuses/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/finalhandler/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/forever-agent/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/form-data/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/forwarded/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/fresh/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/getpass/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/har-schema/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/har-validator/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/http-errors/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/http-signature/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/iconv-lite/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/inherits/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/ipaddr.js/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/is-typedarray/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/isstream/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/jsbn/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/json-schema-traverse/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/json-schema/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/json-stringify-safe/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/jsprim/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/media-typer/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/merge-descriptors/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/methods/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/mime-db/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/mime-types/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/mime/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/ms/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/negotiator/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/oauth-sign/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/on-finished/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/parseurl/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/path-to-regexp/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/performance-now/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/proxy-addr/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/psl/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/punycode/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/qs/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/range-parser/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/raw-body/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/request/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/safe-buffer/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/safer-buffer/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/send/node_modules/statuses/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/send/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/serve-static/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/setprototypeof/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/sshpk/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/statuses/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/tough-cookie/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/tunnel-agent/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/tweetnacl/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/type-is/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/unpipe/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/utils-merge/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/uuid/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/vary/package.json" />
+      <path value="$PROJECT_DIR$/server/node_modules/verror/package.json" />
       <path value="$PROJECT_DIR$/server/package.json" />
     </packageJsonPaths>
   </component>
@@ -213,11 +314,12 @@
       <workItem from="1538432700906" duration="2414000" />
       <workItem from="1538607891270" duration="761000" />
       <workItem from="1539915287256" duration="7133000" />
+      <workItem from="1540689882950" duration="2416000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10763000" />
+    <option name="totallyTimeSpent" value="13353000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
@@ -236,7 +338,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="RNConsole" order="9" weight="0.32907802" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.32907802" />
+      <window_info anchor="bottom" id="Terminal" order="10" weight="0.32907802" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -253,6 +355,20 @@
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="22" column="7" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/external/css/botui.min.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="26" column="17" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/external/css/botui-theme-default.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -260,27 +376,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/external/css/botui.min.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="26" column="17" selection-start-line="26" selection-start-column="17" selection-end-line="26" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/package.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="7" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
+        <state relative-caret-position="255">
+          <caret line="15" column="3" selection-start-line="15" selection-start-column="3" selection-end-line="15" selection-end-column="3" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="38" column="7" lean-forward="true" selection-start-line="38" selection-start-column="7" selection-end-line="38" selection-end-column="7" />
+        <state relative-caret-position="340">
+          <caret line="100" column="14" lean-forward="true" selection-start-line="100" selection-start-column="14" selection-end-line="100" selection-end-column="29" />
         </state>
       </provider>
     </entry>
