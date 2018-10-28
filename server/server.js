@@ -123,18 +123,20 @@ server.post('/webhook', function (req, res) {
         case "NeedRating":
             break;
         
-        case "NeedPrimaryInfo":
-            break;
+        case "NeedPrimaryInfo": 
+                getMovieId(movie, function (id) {
+                getPrimaryInfo(id, function (PrimaryInfoResult) {
+                    message = getPrimaryInfoMessage(id, PrimaryInfoResult);
+                    result.fulfillmentMessages[0].text.text[0] = message;
+                    res.json(result);
+                });
+            });
+                break;
         
         case "NeedReleaseInfo":
             break;
 
-        case "Needdetails":
-            getdetails(movie, function(details){
-                msg = getdetails(details);
-                result.fulfillmentMessages[0].text.text[0] = msg;
-                res.json(result);
-            });
+        case "NeedAlternativeTitles":
             break;
         
         default:
