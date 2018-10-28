@@ -31,7 +31,7 @@ function getMovieId(movie, callback){
         if (error) throw error;
         results = body.results;
         console.log();
-        if (results.length != 0){
+       if (results.length != 0){
             id = results[0].id;
             //console.log("calling callback with id" + id);
             callback(id);
@@ -61,8 +61,7 @@ function getdetails(movie, callback){
 }
 
 // function to create a displayable message for details
-function get
-TitleMsg(details){
+function getdetailsMsg(details){
     str = "details include:";
     for(var i = 0; i < details.length; i++){
         str += "\n" +  details[i];
