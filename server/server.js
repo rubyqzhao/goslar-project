@@ -9,7 +9,6 @@ var port = process.env.PORT || 8080;
 server.use(bodyParser.json()); // support json encoded bodies
 server.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-
 // a sample request object with url to fetch id for movie in query param
 var getIdRequest = {
     method: "GET",
@@ -30,7 +29,6 @@ function getMovieId(movie, callback){
     request(getIdRequest, function(error, response, body) {
         if (error) throw error;
         results = body.results;
-        console.log();
         if (results.length != 0){
             id = results[0].id;
             //console.log("calling callback with id" + id);
@@ -45,15 +43,17 @@ function getIdMessage(id, movie){
 }
 
 // function to call movieDB API to get alternative movie titles
-function getAltTitles(movie, callback){
+function getAltTitles(movie, callback) {
     altTitleRequest.url = "https://api.themoviedb.org/3/movie/" + movie + "/alternative_titles";
     request(altTitleRequest, function(error, response, body) {
         if (error) throw error;
-        dbTitles = body.titles;
+        titles = body.titles;
         output = [];
-        dbTitles.forEach(item => {
+        titles.forEach(item => {
             output.push(item.title);
+            output.push(item.iso_3166_1);
         });
+
         if(output.length > 0) {
             callback(output);
         }
@@ -62,9 +62,9 @@ function getAltTitles(movie, callback){
 
 // function to create a displayable message for alternative titles
 function getAltTitleMsg(altTitles){
-    str = "Alternative titles include:";
-    for(var i = 0; i < altTitles.length; i++){
-        str += "\n" +  altTitles[i];
+    str = "Some alternative titles include:";
+    for(var i = 0; i < 3; i++) {
+        str += "\n" +  altTitles[2*i] + " (" + altTitles[2*i+1] + ")";
     }
     return str;
 }
@@ -81,13 +81,6 @@ var altTitleRequest = {
     body: {},
     json: true
 };
-
-//API call to request MovieDB alternative title info
-server.get('/altTitle', function (req, res) {
-    request(altTitleRequest, function(error, response, body) {
-
-    });
-});
 
 // sample server api
 server.post('/webhook', function (req, res) {
@@ -130,10 +123,12 @@ server.post('/webhook', function (req, res) {
             break;
 
         case "NeedAlternativeTitles":
-            getAltTitles(movie, function(altTitle){
-                msg = getAltTitleMsg(altTitle);
-                result.fulfillmentMessages[0].text.text[0] = msg;
-                res.json(result);
+            getMovieId(movie, function(id) {
+                getAltTitles(id, function(altTitle){
+                    msg = getAltTitleMsg(altTitle);
+                    result.fulfillmentMessages[0].text.text[0] = msg;
+                    res.json(result);
+                });
             });
             break;
         
