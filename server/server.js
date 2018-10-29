@@ -30,10 +30,8 @@ function getMovieId(movie, callback) {
     request(getIdRequest, function (error, response, body) {
         if (error) throw error;
         results = body.results;
-        console.log()
         if (results.length != 0) {
             id = results[0].id;
-            //console.log("calling callback with id" + id);
             callback(id);
         }
     });
@@ -45,18 +43,22 @@ function getIdMessage(id, movie) {
 }
 
 function getReleaseInfo(id, callback) {
-    request(reviewRequest, function (error, response, body) {
+    var urlString = "https://api.themoviedb.org/3/movie/"+id+"/release_dates";
+    releaseInfoRequest.url = urlString;
+    request(releaseInfoRequest, function (error, response, body) {
         if (error) throw error;
-
-        for (var i = 0; i < results.length; i++) {
-            if (body.results[i].iso_3166_1 === "US")
-                result = body.results.release_date;
+        var releaseDate;
+        for (var i = 0; i < response.body.results.length; i++) {
+            if (body.results[i]['iso_3166_1'] === "US") {
+                releaseDate = response.body.results[i]['release_dates'][0].release_date;
+            }
         }
-        callback(result);
+        callback(releaseDate);
     });
 }
 
 function getReleaseInfoMessage(movie, releaseInfo) {
+    console.log("Movie name: "+ movie);
     message = movie + " was released on " + releaseInfo;
     return message;
 }
@@ -101,7 +103,7 @@ server.post('/webhook', function (req, res) {
         case "NeedReleaseInfo":
             getMovieId(movie, function (id) {
                 getReleaseInfo(id, function (releaseInfoResult) {
-                    message = getReleaseInfoMessage(id, releaseInfoResult);
+                    message = getReleaseInfoMessage(movie, releaseInfoResult);
                     result.fulfillmentMessages[0].text.text[0] = message;
                     res.json(result);
                 });
@@ -117,9 +119,9 @@ server.post('/webhook', function (req, res) {
 });
 
 //GET request for getting review of the movie from theMovieDb API
-var reviewRequest = {
+var releaseInfoRequest = {
     method: "GET",
-    url: "https://api.themoviedb.org/3/movie/550/reviews",
+    url: "https://api.themoviedb.org/3/movie/id/release_dates",
     qs: {api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1"},
     headers: {
         //authorization: "Bearer <<access_token>>",
