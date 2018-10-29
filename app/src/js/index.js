@@ -48,11 +48,21 @@ function getQuery() {
             placeholder: 'I want to know about ...'
         }
     }).then(function(res) {
-        return botui.message.add({
-            delay: 1000,
-            loading: true,
-            content: "I'm sorry " + username + ", I don't have the data to answer your query."
-        })
+
+        var url = "https://4ec8c13a.ngrok.io/answer";
+        var data = {
+            "query" : res.value
+        };
+        $.post(url,data,function(data, status){
+            var ans = data;
+            return botui.message.add({
+                delay: 1000,
+                loading: true,
+                //content: "I'm sorry " + username + ", I don't have the data to answer your query."
+                content: ans
+            })
+        });
+
     }).then(function() {
         return botui.message.add({
             delay: 1000,

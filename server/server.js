@@ -3,7 +3,7 @@ var request = require('request');
 var server = express();
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
-
+const answerAPI = require('./answer.js');
 var port = process.env.PORT || 8080;
 
 server.use(bodyParser.json()); // support json encoded bodies
@@ -92,6 +92,15 @@ server.post('/webhook', function (req, res) {
     }    
 });
 
+server.post('/answer', function (req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    body = req.body;
+    query = body.query;
+    answerAPI.getAnswer(query, function(data){
+        res.send(data);
+    });
+});
 
 server.use(function(req, res, next) {
     res.status(404).send("Sorry, not found");
