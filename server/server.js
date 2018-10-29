@@ -43,7 +43,7 @@ function getIdMessage(id, movie) {
 }
 
 function getReleaseInfo(id, callback) {
-    var urlString = "https://api.themoviedb.org/3/movie/"+id+"/release_dates";
+    var urlString = "https://api.themoviedb.org/3/movie/" + id + "/release_dates";
     releaseInfoRequest.url = urlString;
     request(releaseInfoRequest, function (error, response, body) {
         if (error) throw error;
@@ -58,8 +58,15 @@ function getReleaseInfo(id, callback) {
 }
 
 function getReleaseInfoMessage(movie, releaseInfo) {
-    console.log("Movie name: "+ movie);
-    message = movie + " was released on " + releaseInfo;
+    var releaseDate = new Date(releaseInfo);
+    var monthNames = [
+        "January", "February", "March", "April", "May", "June", "July",
+        "August", "September", "October", "November", "December"
+    ];
+    const date = releaseDate.getDate();
+    const month = releaseDate.getMonth();
+    const year = releaseDate.getFullYear();
+    message = movie + " was released on " + date + " " + monthNames[month - 1] + " " + year;
     return message;
 }
 
