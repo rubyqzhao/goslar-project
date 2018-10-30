@@ -7,13 +7,13 @@ const jsonParser = bodyParser.json();
 var port = process.env.PORT || 8080;
 
 server.use(bodyParser.json()); // support json encoded bodies
-server.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
+server.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 // a sample request object with url to fetch id for movie in query param
 var getIdRequest = {
     method: "GET",
     url: "https://api.themoviedb.org/3/search/movie",
-    qs: {api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1", query: ""},
+    qs: { api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1", query: ""},
     headers: {
         //authorization: "Bearer <<access_token>>",
         "content-type": "application/json;charset=utf-8"
@@ -22,69 +22,28 @@ var getIdRequest = {
     json: true
 };
 
-function getMovieId(movie, callback) {
+function getMovieId(movie, callback){
     id = undefined;
     // this line will add movie param to request 
     getIdRequest.qs.query = movie;
-    request(getIdRequest, function (error, response, body) {
+    request(getIdRequest, function(error, response, body) {
         if (error) throw error;
         results = body.results;
         if (results.length != 0){
             id = results[0].id;
+            //console.log("calling callback with id" + id);
             callback(id);
         }
     });
 }
 
-function getIdMessage(id, movie) {
+function getIdMessage(id, movie){
     message = "ID for " + movie + " is " + id;
     return message;
 }
-
-
-
-// function to call movieDB API to get alternative movie titles
-function getAltTitles(movie, callback) {
-    altTitleRequest.url = "https://api.themoviedb.org/3/movie/" + movie + "/alternative_titles";
-    request(altTitleRequest, function(error, response, body) {
-        if (error) throw error;
-        titles = body.titles;
-        output = [];
-        titles.forEach(item => {
-            output.push(item.title);
-            output.push(item.iso_3166_1);
-        });
-
-        if(output.length > 0) {
-            callback(output);
-        }
-    });
-}
-
-// function to create a displayable message for alternative titles
-function getAltTitleMsg(altTitles){
-    str = "Some alternative titles include:";
-    for(var i = 0; i < 3; i++) {
-        str += "\n" +  altTitles[2*i] + " (" + altTitles[2*i+1] + ")";
-    }
-    return str;
-}
-
-// request object to fetch data about alternative movie titles
-var altTitleRequest = {
-    method: "GET",
-    url: "",
-    qs: { api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1" },
-    headers: {
-        //authorization: "Bearer <<access_token>>",
-        "content-type": "application/json;charset=utf-8"
-    },
-    body: {},
-    json: true
-};
 // function to call movieDB API to get movie primary information
 function getPrimaryInfo(movie, callback){
-    detailsRequest.url = "https://api.themoviedb.org/3/movie/" + movie + "/PrimaryInfo";
+    detailsRequest.url = "https://developers.themoviedb.org/3/movies/get-movie-details";
     request(detailsTitleRequest, function(error, response, body) {
         if (error) throw error;
         dbTitles = body.titles;
@@ -127,17 +86,15 @@ server.get('/details', function (req, res) {
     });
 });
 
-
 // sample server api
 server.post('/webhook', function (req, res) {
-    var body, movie, intent, id, result;
     body = req.body;
     movie = body.queryResult.parameters.movie;
     intent = body.queryResult.intent.displayName;
     id = undefined;
 
     result = {
-        "fulfillmentText": "",
+        "fulfillmentText" : "",
         "fulfillmentMessages": [{
             "text": {
                 "text": [
@@ -145,29 +102,24 @@ server.post('/webhook', function (req, res) {
                 ]
             }
         }],
-        "source": ""
+        "source":""
     };
 
-    switch (intent) {
+    switch(intent) {
         case "NeedId":
-            getMovieId(movie, function (id) {
+            getMovieId(movie, function(id){
                 message = getIdMessage(id, movie);
                 result.fulfillmentMessages[0].text.text[0] = message;
                 res.json(result);
             });
             break;
-
+        
         case "NeedTrending":
             break;
-
+        
         case "NeedRating":
-            getRating(movie, function (ratingResult) {
-                message = getRatingMessage(movie, ratingResult);
-                result.fulfillmentMessages[0].text.text[0] = message;
-                res.json(result);
-            });
             break;
-
+        
         case "NeedPrimaryInfo":
                 getMovieId(movie, function (id) {
                 getReleaseInfo(id, function (releaseInfoResult) {
@@ -175,56 +127,21 @@ server.post('/webhook', function (req, res) {
                     result.fulfillmentMessages[0].text.text[0] = message;
                     res.json(result);
                 });
-            });
-            break;
-
+          break;
+        
         case "NeedReleaseInfo":
-            getMovieId(movie, function (id) {
-                getReleaseInfo(id, function (releaseInfoResult) {
-                    message = getReleaseInfoMessage(movie, releaseInfoResult);
-                    result.fulfillmentMessages[0].text.text[0] = message;
-                    res.json(result);
-                });
-            });
             break;
 
         case "NeedAlternativeTitles":
-            getMovieId(movie, function(id) {
-                getAltTitles(id, function(altTitle){
-                    msg = getAltTitleMsg(altTitle);
-                    result.fulfillmentMessages[0].text.text[0] = msg;
-                    res.json(result);
-                });
-            });
+           
             break;
-
+        
         default:
             res.json(result);
-    }
+    }    
 });
 
-//GET request for getting review of the movie from theMovieDb API
-var releaseInfoRequest = {
-    method: "GET",
-    url: "https://api.themoviedb.org/3/movie/id/release_dates",
-    qs: {api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1"},
-    headers: {
-        //authorization: "Bearer <<access_token>>",
-        "content-type": "application/json;charset=utf-8"
-    },
-    body: {},
-    json: true
-};
-
-// API to call theMovieDb api to get review of the movie
-server.get('/reviews', function (req, res) {
-    request(reviewRequest, function (error, response, body) {
-        if (error) throw error;
-        result = body.results[0].content;
-        res.send(result);
-    });
-});
-server.use(function (req, res, next) {
+server.use(function(req, res, next) {
     res.status(404).send("Sorry, not found");
 });
 
