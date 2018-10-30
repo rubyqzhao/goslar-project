@@ -3,8 +3,4 @@
 *.xml
 node_modules/
 package-lock.json
-.idea
-*.xml
-*.xml
-*.xml
-*.xml
+.idea/
