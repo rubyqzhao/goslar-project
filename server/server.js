@@ -69,6 +69,31 @@ function getReleaseInfoMessage(movie, releaseInfo) {
     return message;
 }
 
+//GET request for getting review of the movie from theMovieDb API
+var releaseInfoRequest = {
+    method: "GET",
+    url: "https://api.themoviedb.org/3/movie/id/release_dates",
+    qs: {api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1"},
+    headers: {
+        //authorization: "Bearer <<access_token>>",
+        "content-type": "application/json;charset=utf-8"
+    },
+    body: {},
+    json: true
+};
+
+var reviewRequest = {
+    method: "GET",
+    url: "https://api.themoviedb.org/3/search/movie",
+    qs: {api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1", qs: ""},
+    headers: {
+        //authorization: "Bearer <<access_token>>",
+        "content-type": "application/json;charset=utf-8"
+    },
+    body: {},
+    json: true
+};
+
 function getRating(movie, callback) {
     console.log(JSON.stringify(reviewRequest));
     reviewRequest.qs.query = movie;
@@ -208,27 +233,7 @@ server.post('/webhook', function (req, res) {
     }
 });
 
-//GET request for getting review of the movie from theMovieDb API
-var releaseInfoRequest = {
-    method: "GET",
-    url: "https://api.themoviedb.org/3/movie/id/release_dates",
-    qs: {api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1"},
-    headers: {
-        //authorization: "Bearer <<access_token>>",
-        "content-type": "application/json;charset=utf-8"
-    },
-    body: {},
-    json: true
-};
 
-// API to call theMovieDb api to get review of the movie
-server.get('/reviews', function (req, res) {
-    request(reviewRequest, function (error, response, body) {
-        if (error) throw error;
-        result = body.results[0].content;
-        res.send(result);
-    });
-});
 server.use(function (req, res, next) {
     res.status(404).send("Sorry, not found");
 });
