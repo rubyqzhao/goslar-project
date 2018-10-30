@@ -43,7 +43,7 @@ function getIdMessage(id, movie){
 }
 // function to call movieDB API to get movie primary information
 function getPrimaryInfo(movie, callback){
-  PrimaryInfoRequest.url = "https://api.themoviedb.org/3/movie/" + id + "";
+  PrimaryInfoRequest.url = "https://api.themoviedb.org/3/movie/" + movie + "";
     request(PrimaryInfoRequest, function(error, response, body) {
         if (error) throw error;
         dbTitles = body.titles;
