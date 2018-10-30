@@ -9,7 +9,6 @@ var port = process.env.PORT || 8080;
 server.use(bodyParser.json()); // support json encoded bodies
 server.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-
 // a sample request object with url to fetch id for movie in query param
 var getIdRequest = {
     method: "GET",
@@ -30,7 +29,6 @@ function getMovieId(movie, callback){
     request(getIdRequest, function(error, response, body) {
         if (error) throw error;
         results = body.results;
-        console.log()
         if (results.length != 0){
             id = results[0].id;
             //console.log("calling callback with id" + id);
@@ -43,6 +41,46 @@ function getIdMessage(id, movie){
     message = "ID for " + movie + " is " + id;
     return message;
 }
+
+// function to call movieDB API to get alternative movie titles
+function getAltTitles(movie, callback) {
+    altTitleRequest.url = "https://api.themoviedb.org/3/movie/" + movie + "/alternative_titles";
+    request(altTitleRequest, function(error, response, body) {
+        if (error) throw error;
+        titles = body.titles;
+        output = [];
+        titles.forEach(item => {
+            output.push(item.title);
+            output.push(item.iso_3166_1);
+        });
+
+        if(output.length > 0) {
+            callback(output);
+        }
+    });
+}
+
+// function to create a displayable message for alternative titles
+function getAltTitleMsg(altTitles){
+    str = "Some alternative titles include:";
+    for(var i = 0; i < 3; i++) {
+        str += "\n" +  altTitles[2*i] + " (" + altTitles[2*i+1] + ")";
+    }
+    return str;
+}
+
+// request object to fetch data about alternative movie titles
+var altTitleRequest = {
+    method: "GET",
+    url: "",
+    qs: { api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1" },
+    headers: {
+        //authorization: "Bearer <<access_token>>",
+        "content-type": "application/json;charset=utf-8"
+    },
+    body: {},
+    json: true
+};
 
 // sample server api
 server.post('/webhook', function (req, res) {
@@ -85,13 +123,19 @@ server.post('/webhook', function (req, res) {
             break;
 
         case "NeedAlternativeTitles":
+            getMovieId(movie, function(id) {
+                getAltTitles(id, function(altTitle){
+                    msg = getAltTitleMsg(altTitle);
+                    result.fulfillmentMessages[0].text.text[0] = msg;
+                    res.json(result);
+                });
+            });
             break;
         
         default:
             res.json(result);
     }    
 });
-
 
 server.use(function(req, res, next) {
     res.status(404).send("Sorry, not found");
