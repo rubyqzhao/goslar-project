@@ -31,7 +31,6 @@ function getMovieId(movie, callback) {
         results = body.results;
         if (results.length != 0){
             id = results[0].id;
-            //console.log("calling callback with id" + id);
             callback(id);
         }
     });
@@ -39,6 +38,34 @@ function getMovieId(movie, callback) {
 
 function getIdMessage(id, movie) {
     message = "ID for " + movie + " is " + id;
+    return message;
+}
+
+function getReleaseInfo(id, callback) {
+    var urlString = "https://api.themoviedb.org/3/movie/" + id + "/release_dates";
+    releaseInfoRequest.url = urlString;
+    request(releaseInfoRequest, function (error, response, body) {
+        if (error) throw error;
+        var releaseDate;
+        for (var i = 0; i < response.body.results.length; i++) {
+            if (body.results[i]['iso_3166_1'] === "US") {
+                releaseDate = response.body.results[i]['release_dates'][0].release_date;
+            }
+        }
+        callback(releaseDate);
+    });
+}
+
+function getReleaseInfoMessage(movie, releaseInfo) {
+    var releaseDate = new Date(releaseInfo);
+    var monthNames = [
+        "January", "February", "March", "April", "May", "June", "July",
+        "August", "September", "October", "November", "December"
+    ];
+    const date = releaseDate.getDate();
+    const month = releaseDate.getMonth();
+    const year = releaseDate.getFullYear();
+    message = movie + " was released on " + date + " " + monthNames[month - 1] + " " + year;
     return message;
 }
 
@@ -157,7 +184,13 @@ server.post('/webhook', function (req, res) {
             break;
 
         case "NeedReleaseInfo":
-
+            getMovieId(movie, function (id) {
+                getReleaseInfo(id, function (releaseInfoResult) {
+                    message = getReleaseInfoMessage(movie, releaseInfoResult);
+                    result.fulfillmentMessages[0].text.text[0] = message;
+                    res.json(result);
+                });
+            });
             break;
 
         case "NeedAlternativeTitles":
@@ -176,10 +209,10 @@ server.post('/webhook', function (req, res) {
 });
 
 //GET request for getting review of the movie from theMovieDb API
-var reviewRequest = {
+var releaseInfoRequest = {
     method: "GET",
-    url: "https://api.themoviedb.org/3/search/movie",
-    qs: {api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1", qs: ""},
+    url: "https://api.themoviedb.org/3/movie/id/release_dates",
+    qs: {api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1"},
     headers: {
         //authorization: "Bearer <<access_token>>",
         "content-type": "application/json;charset=utf-8"
@@ -189,7 +222,13 @@ var reviewRequest = {
 };
 
 // API to call theMovieDb api to get review of the movie
-
+server.get('/reviews', function (req, res) {
+    request(reviewRequest, function (error, response, body) {
+        if (error) throw error;
+        result = body.results[0].content;
+        res.send(result);
+    });
+});
 server.use(function (req, res, next) {
     res.status(404).send("Sorry, not found");
 });
