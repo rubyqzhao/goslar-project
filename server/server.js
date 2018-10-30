@@ -43,8 +43,8 @@ function getIdMessage(id, movie){
 }
 // function to call movieDB API to get movie primary information
 function getPrimaryInfo(movie, callback){
-    detailsRequest.url = "https://api.themoviedb.org/3/movie/" + id + ";
-    request(detailsTitleRequest, function(error, response, body) {
+  PrimaryInfoRequest.url = "https://api.themoviedb.org/3/movie/" + id + "";
+    request(PrimaryInfoRequest, function(error, response, body) {
         if (error) throw error;
         dbTitles = body.titles;
         output = [];
@@ -56,16 +56,14 @@ function getPrimaryInfo(movie, callback){
         }
     });
 }
-
 // function to create a displayable message for PrimaryInfo
 function getPrimaryInfoMsg(PrimaryInfo){
-    str = "details include:";
+    str = "PrimaryInfo include:";
     for(var i = 0; i < details.length; i++){
         str += "\n" +  details[i];
     }
     return str;
 }
-
 // request object to fetch data about movie PrimaryInfo
 var PrimaryInfoRequest = {
     method: "GET",
@@ -78,21 +76,17 @@ var PrimaryInfoRequest = {
     body: {},
     json: true
 };
-
 //API call to request MovieDB PrimaryInfo
-server.get('/details', function (req, res) {
-    request(detailsRequest, function(error, response, body) {
-
+server.get('/PrimaryInfo', function (req, res) {
+    request(PrimaryInfoRequest, function(error, response, body) {
     });
 });
-
 // sample server api
 server.post('/webhook', function (req, res) {
     body = req.body;
     movie = body.queryResult.parameters.movie;
     intent = body.queryResult.intent.displayName;
     id = undefined;
-
     result = {
         "fulfillmentText" : "",
         "fulfillmentMessages": [{
@@ -104,7 +98,6 @@ server.post('/webhook', function (req, res) {
         }],
         "source":""
     };
-
     switch(intent) {
         case "NeedId":
             getMovieId(movie, function(id){
@@ -127,11 +120,13 @@ server.post('/webhook', function (req, res) {
                     result.fulfillmentMessages[0].text.text[0] = message;
                     res.json(result);
                 });
+                });
           break;
+          
         
         case "NeedReleaseInfo":
             break;
-
+            
         case "NeedAlternativeTitles":
            
             break;
@@ -140,11 +135,9 @@ server.post('/webhook', function (req, res) {
             res.json(result);
     }    
 });
-
 server.use(function(req, res, next) {
     res.status(404).send("Sorry, not found");
 });
-
 server.listen(port, function () {
     console.log('server listening on port ' + port);
     console.log('Press CTRL + C to stop server');
