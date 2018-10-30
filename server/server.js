@@ -36,6 +36,45 @@ function getMovieId(movie, callback) {
     });
 }
 
+var trendingRequest = {
+    method: "GET",
+    url: "https://api.themoviedb.org/3/trending/movie/week",
+    qs: { api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1" },
+    headers: {
+        //authorization: "Bearer <<access_token>>",
+        "content-type": "application/json;charset=utf-8"
+    },
+    body: {},
+    json: true
+};
+
+// function to call theMovieDb api to get list of trending movies
+function getTrendingMovies(callback){
+    request(trendingRequest, function(error, response, body) {
+        if (error) throw error;
+        results = body.results;
+        output = [];    
+        results.forEach(item => {
+            output.push(item.original_title);
+        });
+        if (output.length > 0){
+            callback(output);
+        }
+    });
+};
+
+function getTrendingMessage(trendingMovies){
+    // this function creats proper messsage to show trending movies.
+    ans = "Here is a list of top 5 trending movies : \n";
+    list = "";
+    for(var i = 0;i < 4;i++){
+        list += trendingMovies[i] + ",\n";
+    }
+    list += trendingMovies[i];
+    ans += list;
+    return ans;
+}
+
 function getIdMessage(id, movie) {
     message = "ID for " + movie + " is " + id;
     return message;
@@ -195,6 +234,11 @@ server.post('/webhook', function (req, res) {
             break;
 
         case "NeedTrending":
+            getTrendingMovies(function(trendingMovies){
+                message = getTrendingMessage(trendingMovies);
+                result.fulfillmentMessages[0].text.text[0] = message;
+                res.json(result);
+            });
             break;
 
         case "NeedRating":
