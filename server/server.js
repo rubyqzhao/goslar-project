@@ -43,7 +43,7 @@ function getIdMessage(id, movie){
 }
 // function to call movieDB API to get movie primary information
 function getPrimaryInfo(movie, callback){
-    detailsRequest.url = "https://developers.themoviedb.org/3/movies/get-movie-details";
+    detailsRequest.url = "https://api.themoviedb.org/3/movie/" + id + ";
     request(detailsTitleRequest, function(error, response, body) {
         if (error) throw error;
         dbTitles = body.titles;
@@ -122,8 +122,8 @@ server.post('/webhook', function (req, res) {
         
         case "NeedPrimaryInfo":
                 getMovieId(movie, function (id) {
-                getReleaseInfo(id, function (releaseInfoResult) {
-                    message = getReleaseInfoMessage(movie, releaseInfoResult);
+                getPrimaryInfo(id, function (PrimaryInfoResult) {
+                    message = getPrimaryInfoMessage(movie, PrimaryInfoResult);
                     result.fulfillmentMessages[0].text.text[0] = message;
                     res.json(result);
                 });
