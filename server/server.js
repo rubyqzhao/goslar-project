@@ -9,9 +9,9 @@ var port = process.env.PORT || 8080;
 server.use(bodyParser.json()); // support json encoded bodies
 server.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
-var getIdRequest = {
-// a sample request object with url to fetch id for movie in query param
 
+// a sample request object with url to fetch id for movie in query param
+var getIdRequest = {
     method: "GET",
     url: "https://api.themoviedb.org/3/search/movie",
     qs: { api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1", query: ""},
@@ -92,27 +92,7 @@ server.post('/webhook', function (req, res) {
     }    
 });
 
-//GET request for getting review of the movie from theMovieDb API
-var reviewRequest = {
-    method: "GET",
-    url: "https://api.themoviedb.org/3/movie/550/reviews",
-    qs: { api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1" },
-    headers: {
-        //authorization: "Bearer <<access_token>>",
-        "content-type": "application/json;charset=utf-8"
-    },
-    body: {},
-    json: true
-};
 
-// API to call theMovieDb api to get review of the movie
-server.get('/reviews', function (req, res) {
-    request(reviewRequest, function(error, response, body) {
-        if (error) throw error;
-        result = body.results[0].content;
-        res.send(result);
-    });
-});
 server.use(function(req, res, next) {
     res.status(404).send("Sorry, not found");
 });
@@ -120,4 +100,4 @@ server.use(function(req, res, next) {
 server.listen(port, function () {
     console.log('server listening on port ' + port);
     console.log('Press CTRL + C to stop server');
-}); 
+});
