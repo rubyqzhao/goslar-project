@@ -49,7 +49,7 @@ function getQuery() {
         }
     }).then(function(res) {
 
-        var url = "https://4ec8c13a.ngrok.io/answer";
+        var url = "https://f5401106.ngrok.io/answer";
         var data = {
             "query" : res.value
         };
@@ -58,21 +58,19 @@ function getQuery() {
             return botui.message.add({
                 delay: 1000,
                 loading: true,
-                //content: "I'm sorry " + username + ", I don't have the data to answer your query."
                 content: ans
-            })
+            }).then(function() {
+                return botui.message.add({
+                    delay: 1000,
+                    loading: true,
+                    content: "Can I help you with something else?"
+                });
+            }).then(function() {
+                setTimeout(function() {
+                    getQuery();
+                }, 1000);
+            });
         });
-
-    }).then(function() {
-        return botui.message.add({
-            delay: 1000,
-            loading: true,
-            content: "Can I help you with something else?"
-        });
-    }).then(function() {
-        setTimeout(function() {
-            getQuery();
-        }, 1000);
     });
 
 }
