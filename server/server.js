@@ -204,6 +204,44 @@ var altTitleRequest = {
     json: true
 };
 
+var getPrimaryInfoRequest = {
+    method: "GET",
+    url: "https://api.themoviedb.org/3/movie/",
+    qs: { api_key: "b9ba76892aceca8cadef96bae5ca959b", page: "1"},
+    headers: {
+        //authorization: "Bearer <<access_token>>",
+        "content-type": "application/json;charset=utf-8"
+    },
+    body: {},
+    json: true
+};
+
+function getPrimaryInfoMsg(body, movie, callback){
+    var msg = "Here is some info for " + movie + "</br></br>";
+    var genres = "Geners : ";
+    var overview = "";
+    body.genres.forEach(element => {
+        genres = genres + " " + element.name;
+    });
+    overview = body.overview;
+    if(body.genres.length > 0){
+        msg += genres + "</br></br>";
+    }
+    if(body.overview){
+        msg += "Overview: \"" + overview + "\"</br>";
+    }
+    callback(msg);
+}
+
+
+function getPrimaryInfo(id, movie, callback){
+    getPrimaryInfoRequest.url = getPrimaryInfoRequest.url + id;
+    request(getPrimaryInfoRequest, function(error, response, body) {
+        if (error) throw error;
+        callback(body);
+    });
+}
+
 // sample server api
 server.post('/webhook', function (req, res) {
     var body, movie, intent, id, result;
@@ -250,8 +288,16 @@ server.post('/webhook', function (req, res) {
             break;
 
         case "NeedPrimaryInfo":
+            getMovieId(movie, function(id){
+                getPrimaryInfo(id, movie, function(data){
+                    getPrimaryInfoMsg(data, movie, function(msg){
+                        result.fulfillmentMessages[0].text.text[0] = msg;
+                        res.json(result);
+                    });
+                });
+            });
             break;
-
+        
         case "NeedReleaseInfo":
             getMovieId(movie, function (id) {
                 getReleaseInfo(id, function (releaseInfoResult) {
