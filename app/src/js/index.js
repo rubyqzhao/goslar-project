@@ -59,13 +59,13 @@ function getQuery() {
                 delay: 1000,
                 loading: true,
                 content: ans
-            }).then(function() {
+            })/*.then(function() {
                 return botui.message.add({
                     delay: 1000,
                     loading: true,
                     content: "Can I help you with something else?"
                 });
-            }).then(function() {
+            })*/.then(function() {
                 setTimeout(function() {
                     getQuery();
                 }, 1000);
