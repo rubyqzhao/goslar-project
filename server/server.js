@@ -3,7 +3,7 @@ var request = require('request');
 var server = express();
 const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
-
+const answerAPI = require('./api/answer.js');
 var port = process.env.PORT || 8080;
 
 server.use(bodyParser.json()); // support json encoded bodies
@@ -65,12 +65,11 @@ function getTrendingMovies(callback){
 
 function getTrendingMessage(trendingMovies){
     // this function creats proper messsage to show trending movies.
-    ans = "Here is a list of top 5 trending movies : \n";
+    ans = "Here is a list of top 5 trending movies : </br>";
     list = "";
-    for(var i = 0;i < 4;i++){
-        list += trendingMovies[i] + ",\n";
+    for(var i = 0;i < 5;i++){
+        list += "" + [i+1] + ". " + trendingMovies[i] + "</br>";
     }
-    list += trendingMovies[i];
     ans += list;
     return ans;
 }
@@ -249,7 +248,8 @@ server.post('/webhook', function (req, res) {
     movie = body.queryResult.parameters.movie;
     intent = body.queryResult.intent.displayName;
     id = undefined;
-
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     result = {
         "fulfillmentText": "",
         "fulfillmentMessages": [{
@@ -261,68 +261,81 @@ server.post('/webhook', function (req, res) {
         }],
         "source": ""
     };
-
-    switch (intent) {
-        case "NeedId":
-            getMovieId(movie, function (id) {
-                message = getIdMessage(id, movie);
-                result.fulfillmentMessages[0].text.text[0] = message;
-                res.json(result);
-            });
-            break;
-
-        case "NeedTrending":
-            getTrendingMovies(function(trendingMovies){
-                message = getTrendingMessage(trendingMovies);
-                result.fulfillmentMessages[0].text.text[0] = message;
-                res.json(result);
-            });
-            break;
-
-        case "NeedRating":
-            getRating(movie, function (ratingResult) {
-                message = getRatingMessage(movie, ratingResult);
-                result.fulfillmentMessages[0].text.text[0] = message;
-                res.json(result);
-            });
-            break;
-
-        case "NeedPrimaryInfo":
-            getMovieId(movie, function(id){
-                getPrimaryInfo(id, movie, function(data){
-                    getPrimaryInfoMsg(data, movie, function(msg){
+    if(intent !== "NeedTrending" && (!movie || movie.length < 1)){
+        result.fulfillmentMessages[0].text.text[0] = "Sorry, I don't have any information for this movie";
+        res.json(result);
+    }else{
+        switch (intent) {
+            case "NeedId":
+                getMovieId(movie, function (id) {
+                    message = getIdMessage(id, movie);
+                    result.fulfillmentMessages[0].text.text[0] = message;
+                    res.json(result);
+                });
+                break;
+    
+            case "NeedTrending":
+                getTrendingMovies(function(trendingMovies){
+                    message = getTrendingMessage(trendingMovies);
+                    result.fulfillmentMessages[0].text.text[0] = message;
+                    res.json(result);
+                });
+                break;
+    
+            case "NeedRating":
+                getRating(movie, function (ratingResult) {
+                    message = getRatingMessage(movie, ratingResult);
+                    result.fulfillmentMessages[0].text.text[0] = message;
+                    res.json(result);
+                });
+                break;
+    
+            case "NeedPrimaryInfo":
+                getMovieId(movie, function(id){
+                    getPrimaryInfo(id, movie, function(data){
+                        getPrimaryInfoMsg(data, movie, function(msg){
+                            result.fulfillmentMessages[0].text.text[0] = msg;
+                            res.json(result);
+                        });
+                    });
+                });
+                break;
+            
+            case "NeedReleaseInfo":
+                getMovieId(movie, function (id) {
+                    getReleaseInfo(id, function (releaseInfoResult) {
+                        message = getReleaseInfoMessage(movie, releaseInfoResult);
+                        result.fulfillmentMessages[0].text.text[0] = message;
+                        res.json(result);
+                    });
+                });
+                break;
+    
+            case "NeedAlternativeTitles":
+                getMovieId(movie, function(id) {
+                    getAltTitles(id, function(altTitle){
+                        msg = getAltTitleMsg(altTitle);
                         result.fulfillmentMessages[0].text.text[0] = msg;
                         res.json(result);
                     });
                 });
-            });
-            break;
-        
-        case "NeedReleaseInfo":
-            getMovieId(movie, function (id) {
-                getReleaseInfo(id, function (releaseInfoResult) {
-                    message = getReleaseInfoMessage(movie, releaseInfoResult);
-                    result.fulfillmentMessages[0].text.text[0] = message;
-                    res.json(result);
-                });
-            });
-            break;
-
-        case "NeedAlternativeTitles":
-            getMovieId(movie, function(id) {
-                getAltTitles(id, function(altTitle){
-                    msg = getAltTitleMsg(altTitle);
-                    result.fulfillmentMessages[0].text.text[0] = msg;
-                    res.json(result);
-                });
-            });
-            break;
-
-        default:
-            res.json(result);
+                break;
+    
+            default:
+                res.json(result);
+        }
     }
 });
 
+server.post('/answer', function (req, res) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    body = req.body;
+    query = body.query;
+    answerAPI.getAnswer(query, function(data){
+        res.send(data);
+    });
+});
 
 server.use(function (req, res, next) {
     res.status(404).send("Sorry, not found");
