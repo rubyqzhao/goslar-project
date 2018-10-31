@@ -219,7 +219,6 @@ function getPrimaryInfoMsg(body, movie, callback){
     var msg = "Here is some info for " + movie + "</br></br>";
     var genres = "Geners : ";
     var overview = "";
-    console.log(body);
     body.genres.forEach(element => {
         genres = genres + " " + element.name;
     });
