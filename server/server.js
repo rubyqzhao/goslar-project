@@ -216,16 +216,19 @@ var getPrimaryInfoRequest = {
 };
 
 function getPrimaryInfoMsg(body, movie, callback){
+    //console.log(body);
     var msg = "Here is some info for " + movie + "</br></br>";
-    var genres = "Geners : ";
-    var overview = "";
-    body.genres.forEach(element => {
-        genres = genres + " " + element.name;
-    });
-    overview = body.overview;
-    if(body.genres.length > 0){
+    if(body.genres && body.genres.length > 0){
+        var genres = "Genres : ";
+        body.genres.forEach(element => {
+            genres = genres + " " + element.name;
+        });
         msg += genres + "</br></br>";
     }
+    
+    var overview = "";
+    
+    overview = body.overview;
     if(body.overview){
         msg += "Overview: \"" + overview + "\"</br>";
     }
@@ -234,10 +237,13 @@ function getPrimaryInfoMsg(body, movie, callback){
 
 
 function getPrimaryInfo(id, movie, callback){
-    getPrimaryInfoRequest.url = getPrimaryInfoRequest.url + id;
+    getPrimaryInfoRequest.url = "https://api.themoviedb.org/3/movie/" + id;
     request(getPrimaryInfoRequest, function(error, response, body) {
-        if (error) throw error;
-        callback(body);
+        console.log(response);
+        if (error)
+            throw error;
+        else
+            callback(body);
     });
 }
 
@@ -291,7 +297,9 @@ server.post('/webhook', function (req, res) {
                 break;
     
             case "NeedPrimaryInfo":
+                //console.log(movie);
                 getMovieId(movie, function(id){
+                    //console.log(id);
                     getPrimaryInfo(id, movie, function(data){
                         getPrimaryInfoMsg(data, movie, function(msg){
                             result.fulfillmentMessages[0].text.text[0] = msg;
