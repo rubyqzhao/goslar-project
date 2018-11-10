@@ -10,6 +10,8 @@ const releaseAPI = require('./api/release.js');
 const ratingAPI = require('./api/rating.js');
 const altTitleAPI = require('./api/title.js');
 const infoAPI = require('./api/info.js');
+const personIdAPI = require('./api/personid.js');
+
 
 // using require create your own js file in api folder and include it here somethingAPI = require(./api/something.js)
 
@@ -24,7 +26,9 @@ server.use(bodyParser.urlencoded({
 server.post('/webhook', function (req, res) {
     var body, movie, intent, id, result;
     body = req.body;
+    console.log(body);
     movie = body.queryResult.parameters.movie;
+    person = body.queryResult.parameters.actor;
     intent = body.queryResult.intent.displayName;
     id = undefined;
     res.header("Access-Control-Allow-Origin", "*");
@@ -40,8 +44,8 @@ server.post('/webhook', function (req, res) {
         }],
         "source": ""
     };
-    if (intent !== "NeedTrending" && (!movie || movie.length < 1)) {
-        result.fulfillmentMessages[0].text.text[0] = "Sorry, I don't have any information for this movie";
+    if (intent !== "NeedTrending" && (!movie || movie.length < 1 ) && ( !person || person.length < 1)) {
+        result.fulfillmentMessages[0].text.text[0] = "Sorry, I don't have any information for this entity";
         res.json(result);
     } else {
         switch (intent) {
@@ -101,9 +105,16 @@ server.post('/webhook', function (req, res) {
                 });
                 break;
 
-            // Add your intent here. Make sure name matches with the one on dialogflow.
-            case "SomeIntent":
+            case "NeedPersonId":
+                personIdAPI.getPersonId(person, function (id) {
+                    message = personIdAPI.getPersonIdMessage(id, person);
+                    result.fulfillmentMessages[0].text.text[0] = message;
+                    res.json(result);
+                });
                 break;
+            
+            // Add your intent here. Make sure name matches with the one on dialogflow.
+
 
             default:
                 res.json(result);
