@@ -11,6 +11,7 @@ const ratingAPI = require('./api/rating.js');
 const altTitleAPI = require('./api/title.js');
 const infoAPI = require('./api/info.js');
 const personIdAPI = require('./api/personid.js');
+const crewAPI = require('./api/crew.js');
 
 
 // using require create your own js file in api folder and include it here somethingAPI = require(./api/something.js)
@@ -110,6 +111,17 @@ server.post('/webhook', function (req, res) {
                     message = personIdAPI.getPersonIdMessage(id, person);
                     result.fulfillmentMessages[0].text.text[0] = message;
                     res.json(result);
+                });
+                break;
+
+            case "NeedCrew":
+                console.log("In NeedCrew");
+                idAPI.getMovieId(movie, function (id) {
+                    crewAPI.getCrew(id, function (crewResult) {
+                        message = crewAPI.getCrewMessage(movie, crewResult);
+                        result.fulfillmentMessages[0].text.text[0] = message;
+                        res.json(result);
+                    })
                 });
                 break;
             
