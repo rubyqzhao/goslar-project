@@ -19,7 +19,7 @@ var castRequest = {
 function getCastMessage(movie, cast) {
     ans = "The cast for " + movie + " is: </br>";
     for (var i = 0; i < 5; i++) {
-        ans += cast[i] + "</br>";
+        ans += cast[i].name + " as " + cast[i].character +"</br>";
     }
     return ans;
 }
@@ -32,7 +32,7 @@ function getCast(id, callback) {
         if (error) throw error;
         castResult = [];
         for (var i = 0; i < 5; i++) {
-            castResult.push(response.body.cast[i].name);
+            castResult.push(response.body.cast[i]);
         }
         callback(castResult);
     });
