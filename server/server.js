@@ -12,7 +12,7 @@ const altTitleAPI = require('./api/title.js');
 const infoAPI = require('./api/info.js');
 const personIdAPI = require('./api/personid.js');
 
-
+const actorInfoAPI = require('./api/actorinfo.js'); 
 // using require create your own js file in api folder and include it here somethingAPI = require(./api/something.js)
 
 var port = process.env.PORT || 8080;
@@ -113,8 +113,15 @@ server.post('/webhook', function (req, res) {
                 });
                 break;
             
-            // Add your intent here. Make sure name matches with the one on dialogflow.
-
+            case "NeedActorInfo":
+                personIdAPI.getPersonId(person, function (id) {
+                    actorInfoAPI.getActorInfo(id, function(msg){
+                        message = actorInfoAPI.getActorInfoMsg(msg);
+                        result.fulfillmentMessages[0].text.text[0] = message;
+                        res.json(result);
+                    });
+                });
+                break;
 
             default:
                 res.json(result);
