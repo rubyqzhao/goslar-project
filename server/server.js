@@ -12,6 +12,7 @@ const altTitleAPI = require('./api/title.js');
 const infoAPI = require('./api/info.js');
 const personIdAPI = require('./api/personid.js');
 const transLangAPI = require('./api/translations.js')
+const topGenreAPI = require('./api/topgenre.js')
 
 // using require create your own js file in api folder and include it here somethingAPI = require(./api/something.js)
 
@@ -117,10 +118,18 @@ server.post('/webhook', function (req, res) {
             case "NeedTranslatedLangs":
                 transLang.getMovieId(movie, function (id) {
                     transLangAPI.getTransLang(id, function (transLang) {
-                        msg = altTitleAPI.getTransLangMsg(transLang);
+                        msg = transLangAPI.getTransLangMsg(transLang);
                         result.fulfillmentMessage[0].text.text[0] = msg;
                         res.json(result);
                     });
+                });
+                break;
+
+            case "NeedGenreTopTen":
+                topGenreAPI.getTopGenre(id, function (topGenre) {
+                    msg = topGenreAPI.getGenreMessage(topGenre)
+                    result.fulfillmentMessages[0].text.text[0] = message;
+                    res.json(result);
                 });
                 break;
 
