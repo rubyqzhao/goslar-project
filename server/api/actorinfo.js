@@ -16,7 +16,11 @@ var getActorInfoRequest = {
 };
 
 function getActorInfoMsg(body, callback) {
-    var msg = body.biography;
+    var arr = body.biography.split(".");
+    var msg = "";
+    for(var i = 0;i < 5;i++){
+        msg += arr[i];
+    }
     return msg;
 }
 
