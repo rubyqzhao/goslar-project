@@ -11,7 +11,7 @@ const ratingAPI = require('./api/rating.js');
 const altTitleAPI = require('./api/title.js');
 const infoAPI = require('./api/info.js');
 const personIdAPI = require('./api/personid.js');
-const similarAPI = require('./api/similar.js')
+const upcomingAPI = require('./api/upcoming.js')
 
 // using require create your own js file in api folder and include it here somethingAPI = require(./api/something.js)
 
@@ -114,10 +114,10 @@ server.post('/webhook', function (req, res) {
                 break;
 
             // Add your intent here. Make sure name matches with the one on dialogflow.
-            case "Needsimilar":
+            case "Needupcoming":
                 similar.getMovieId(movie, function (id) {
-                    similarAPI.getsimilar(id, function (similar) {
-                        msg = similarAPI.getsimilarMsg(similar);
+                    similarAPI.getupcoming(id, function (upcoming) {
+                        msg = similarAPI.getupcomingMsg(upcoming);
                         result.fulfillmentMessage[0].text.text[0] = msg;
                         res.json(result);
                     });
