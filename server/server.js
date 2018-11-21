@@ -115,9 +115,9 @@ server.post('/webhook', function (req, res) {
 
             // Add your intent here. Make sure name matches with the one on dialogflow.
             case "Needupcoming":
-                similar.getMovieId(movie, function (id) {
-                    similarAPI.getupcoming(id, function (upcoming) {
-                        msg = similarAPI.getupcomingMsg(upcoming);
+                upcoming.getMovieId(movie, function (id) {
+                    upcomingAPI.getupcoming(id, function (upcoming) {
+                        msg = upcomingAPI.getupcomingMsg(upcoming);
                         result.fulfillmentMessage[0].text.text[0] = msg;
                         res.json(result);
                     });
