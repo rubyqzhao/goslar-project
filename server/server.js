@@ -11,6 +11,7 @@ const ratingAPI = require('./api/rating.js');
 const altTitleAPI = require('./api/title.js');
 const infoAPI = require('./api/info.js');
 const personIdAPI = require('./api/personid.js');
+const actorInfoAPI = require('./api/actorinfo.js'); 
 const moviesForActorAPI = require('./api/moviesForActor.js');
 const crewAPI = require('./api/crew.js');
 const castAPI = require('./api/cast.js');
@@ -114,6 +115,14 @@ server.post('/webhook', function (req, res) {
                     res.json(result);
                 });
                 break;
+            
+            case "NeedActorInfo":
+                personIdAPI.getPersonId(person, function (id) {
+                    actorInfoAPI.getActorInfo(id, function(msg){
+                        message = actorInfoAPI.getActorInfoMsg(msg);
+                        result.fulfillmentMessages[0].text.text[0] = message;
+                        res.json(result);
+                    });
 
             case "NeedCrew":
                 console.log("In NeedCrew");
