@@ -11,6 +11,7 @@ const ratingAPI = require('./api/rating.js');
 const altTitleAPI = require('./api/title.js');
 const infoAPI = require('./api/info.js');
 const personIdAPI = require('./api/personid.js');
+const crewAPI = require('./api/crew.js');
 const castAPI = require('./api/cast.js');
 
 
@@ -114,6 +115,17 @@ server.post('/webhook', function (req, res) {
                 });
                 break;
 
+            case "NeedCrew":
+                console.log("In NeedCrew");
+                idAPI.getMovieId(movie, function (id) {
+                    crewAPI.getCrew(id, function (crewResult) {
+                        message = crewAPI.getCrewMessage(movie, crewResult);
+                      result.fulfillmentMessages[0].text.text[0] = message;
+                        res.json(result);
+                    })
+                });
+                break;
+            
             case "NeedCast":
                 console.log("In NeedCast");
                 idAPI.getMovieId(movie, function (id) {
@@ -124,7 +136,8 @@ server.post('/webhook', function (req, res) {
                     })
                 });
                 break;
-
+            
+            
             // Add your intent here. Make sure name matches with the one on dialogflow.
 
 
