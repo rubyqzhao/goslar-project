@@ -18,22 +18,25 @@ var transLangRequest = {
 
 // function to create a displayable message for translated languages
 function getTransLangMsg(transLang) {
-    str = "This movie has been translated into the following languages:";
-    for (var i = 0; i < transLang.length; i++) {
-        str += "\n" + transLang[i];
+    str = "This movie has been translated into the following languages: " + transLang[0];
+    for (var i = 1; i < 8; i++) {
+        str += ", " + transLang[i];
     }
+    if(transLang.length >= 8)
+        str += ", and more!";
+
     return str;
 }
 
 // function to call movieDB API to get translated languages
 function getTransLang(movie, callback) {
-    transLangRequest.url = "https://api.themoviedb.org/3/movie/" + movie;
+    transLangRequest.url = "https://api.themoviedb.org/3/movie/" + movie + "/translations";
     request(transLangRequest, function (error, response, body) {
         if (error) throw error;
-        langs = body.spoken_languages;
+        langs = body.translations;
         output = [];
         langs.forEach(item => {
-            output.push(item.name);
+            output.push(item.english_name);
         });
 
         if (output.length > 0) {

@@ -116,10 +116,10 @@ server.post('/webhook', function (req, res) {
 
             // Add your intent here. Make sure name matches with the one on dialogflow.
             case "NeedTranslatedLangs":
-                transLang.getMovieId(movie, function (id) {
+                idAPI.getMovieId(movie, function (id) {
                     transLangAPI.getTransLang(id, function (transLang) {
                         msg = transLangAPI.getTransLangMsg(transLang);
-                        result.fulfillmentMessage[0].text.text[0] = msg;
+                        result.fulfillmentMessages[0].text.text[0] = msg;
                         res.json(result);
                     });
                 });
