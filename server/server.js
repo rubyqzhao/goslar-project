@@ -160,15 +160,6 @@ server.post('/webhook', function (req, res) {
                 });
                 break;
             
-            
-            case "NeedPersonId":
-                personIdAPI.getPersonId(person, function (id) {
-                    message = personIdAPI.getPersonIdMessage(id, person);
-                    result.fulfillmentMessages[0].text.text[0] = message;
-                    res.json(result);
-                });
-                break;
-            
             case "NeedMoviesForActor":
                 moviesForActorAPI.getMoviesForActor(person, function (movieList) {
                     message = moviesForActorAPI.getMoviesForActorMsg(movieList, person);
