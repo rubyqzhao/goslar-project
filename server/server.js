@@ -11,6 +11,8 @@ const ratingAPI = require('./api/rating.js');
 const altTitleAPI = require('./api/title.js');
 const infoAPI = require('./api/info.js');
 const personIdAPI = require('./api/personid.js');
+const transLangAPI = require('./api/translations.js')
+const topGenreAPI = require('./api/topgenre.js')
 const actorInfoAPI = require('./api/actorinfo.js'); 
 const moviesForActorAPI = require('./api/moviesForActor.js');
 const crewAPI = require('./api/crew.js');
@@ -116,6 +118,16 @@ server.post('/webhook', function (req, res) {
                 });
                 break;
             
+            case "NeedTranslatedLangs":
+                idAPI.getMovieId(movie, function (id) {
+                    transLangAPI.getTransLang(id, function (transLang) {
+                        msg = transLangAPI.getTransLangMsg(transLang);
+                        result.fulfillmentMessages[0].text.text[0] = msg;
+                        res.json(result);
+                    });
+                });
+                break;
+            
             case "NeedActorInfo":
                 personIdAPI.getPersonId(person, function (id) {
                     actorInfoAPI.getActorInfo(id, function(msg){
@@ -123,6 +135,8 @@ server.post('/webhook', function (req, res) {
                         result.fulfillmentMessages[0].text.text[0] = message;
                         res.json(result);
                     });
+                });
+                break;
 
             case "NeedCrew":
                 console.log("In NeedCrew");
