@@ -12,6 +12,8 @@ const altTitleAPI = require('./api/title.js');
 const infoAPI = require('./api/info.js');
 const personIdAPI = require('./api/personid.js');
 const moviesForActorAPI = require('./api/moviesForActor.js');
+const crewAPI = require('./api/crew.js');
+const castAPI = require('./api/cast.js');
 
 // using require create your own js file in api folder and include it here somethingAPI = require(./api/something.js)
 
@@ -44,7 +46,7 @@ server.post('/webhook', function (req, res) {
         }],
         "source": ""
     };
-    if (intent !== "NeedTrending" && (!movie || movie.length < 1 ) && ( !person || person.length < 1)) {
+    if (intent !== "NeedTrending" && (!movie || movie.length < 1) && (!person || person.length < 1)) {
         result.fulfillmentMessages[0].text.text[0] = "Sorry, I don't have any information for this entity";
         res.json(result);
     } else {
@@ -112,6 +114,29 @@ server.post('/webhook', function (req, res) {
                     res.json(result);
                 });
                 break;
+
+            case "NeedCrew":
+                console.log("In NeedCrew");
+                idAPI.getMovieId(movie, function (id) {
+                    crewAPI.getCrew(id, function (crewResult) {
+                        message = crewAPI.getCrewMessage(movie, crewResult);
+                      result.fulfillmentMessages[0].text.text[0] = message;
+                        res.json(result);
+                    })
+                });
+                break;
+            
+            case "NeedCast":
+                console.log("In NeedCast");
+                idAPI.getMovieId(movie, function (id) {
+                    castAPI.getCast(id, function (castResult) {
+                        message = castAPI.getCastMessage(movie, castResult);
+                        result.fulfillmentMessages[0].text.text[0] = message;
+                        res.json(result);
+                    })
+                });
+                break;
+            
             
             case "NeedPersonId":
                 personIdAPI.getPersonId(person, function (id) {
@@ -131,6 +156,7 @@ server.post('/webhook', function (req, res) {
 
             default:
                 res.json(result);
+
         }
     }
 });
