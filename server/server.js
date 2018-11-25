@@ -11,7 +11,6 @@ const ratingAPI = require('./api/rating.js');
 const altTitleAPI = require('./api/title.js');
 const infoAPI = require('./api/info.js');
 const personIdAPI = require('./api/personid.js');
-<<<<<<< HEAD
 const similarAPI = require('./api/similar.js')
 const transLangAPI = require('./api/translations.js')
 const topGenreAPI = require('./api/topgenre.js')
@@ -19,9 +18,7 @@ const actorInfoAPI = require('./api/actorinfo.js');
 const moviesForActorAPI = require('./api/moviesForActor.js');
 const crewAPI = require('./api/crew.js');
 const castAPI = require('./api/cast.js');
-=======
-const upcomingAPI = require('./api/upcoming.js')
->>>>>>> 56bd5fb234b5b6572b56b09a23d270bbe935b84f
+const upcomingAPI = require('./api/upcoming.js');
 
 // using require create your own js file in api folder and include it here somethingAPI = require(./api/something.js)
 
@@ -54,7 +51,7 @@ server.post('/webhook', function (req, res) {
         "source": ""
     };
 
-    if (intent !== "NeedTrending" && (!movie || movie.length < 1) && (!person || person.length < 1)) {
+    if (intent !== "NeedTrending" && intent !== "Needupcoming" && (!movie || movie.length < 1) && (!person || person.length < 1)) {
         result.fulfillmentMessages[0].text.text[0] = "Sorry, I don't have any information for this entity";
         res.json(result);
     } else {
@@ -144,7 +141,6 @@ server.post('/webhook', function (req, res) {
                 break;
 
             case "NeedCrew":
-                console.log("In NeedCrew");
                 idAPI.getMovieId(movie, function (id) {
                     crewAPI.getCrew(id, function (crewResult) {
                         message = crewAPI.getCrewMessage(movie, crewResult);
@@ -169,7 +165,6 @@ server.post('/webhook', function (req, res) {
                 idAPI.getMovieId(movie, function (id) {
                     similarAPI.getsimilarMovies(id, function (similar) {
                         msg = similarAPI.getsimilarMessage(similar);
-                        console.log(msg);
                         result.fulfillmentMessages[0].text.text[0] = msg;
                         res.json(result);
                     })
@@ -183,9 +178,7 @@ server.post('/webhook', function (req, res) {
                         console.log(msg);
                         result.fulfillmentMessages[0].text.text[0] = msg;
                         res.json(result);
-                    })
-                });
-                
+                });                
                 break;
             
             case "NeedMoviesForActor":
@@ -221,5 +214,4 @@ server.use(function (req, res, next) {
 server.listen(port, function () {
     console.log('server listening on port ' + port);
     console.log('Press CTRL + C to stop server');
-})
-
+});

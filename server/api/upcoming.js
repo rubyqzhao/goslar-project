@@ -17,7 +17,7 @@ var upcomingRequest = {
 
 //function to create proper messsage to show upcoming movies.
 function getupcomingMessage(upcomingMovies) {
-    ans = "Here is a list of top 5 similar movies : </br>";
+    ans = "Here is a list of 5 upcoming movies : </br>";
     list = "";
     for (var i = 0; i < 5; i++) {
         list += "" + [i + 1] + ". " + upcomingMovies[i] + "</br>";
@@ -28,17 +28,13 @@ function getupcomingMessage(upcomingMovies) {
 
 // function to call theMovieDb api to get list of upcoming movies
 function getupcomingMovies(id, callback) {
-    upcomingRequest.url = "https://api.themoviedb.org/3/movie/upcoming";
     request(upcomingRequest, function (error, response, body) {
-        console.log("===================");
-        console.log(body);
         if (error) throw error;
         results = body.results;
         output = [];
         results.forEach(item => {
             output.push(item.original_title);
         });
-        console.log(output);
         if (output.length > 0) {
             callback(output);
         }
