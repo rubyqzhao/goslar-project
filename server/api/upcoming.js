@@ -15,7 +15,7 @@ var upcomingRequest = {
     json: true
 };
 
-//function to create proper messsage to show trending movies.
+//function to create proper messsage to show upcoming movies.
 function getupcomingMessage(upcomingMovies) {
     ans = "Here is a list of top 5 similar movies : </br>";
     list = "";
@@ -26,7 +26,7 @@ function getupcomingMessage(upcomingMovies) {
     return ans;
 }
 
-// function to call theMovieDb api to get list of trending movies
+// function to call theMovieDb api to get list of upcoming movies
 function getupcomingMovies(id, callback) {
     upcomingRequest.url = "https://api.themoviedb.org/3/movie/upcoming";
     request(upcomingRequest, function (error, response, body) {
