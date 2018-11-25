@@ -11,6 +11,7 @@ const ratingAPI = require('./api/rating.js');
 const altTitleAPI = require('./api/title.js');
 const infoAPI = require('./api/info.js');
 const personIdAPI = require('./api/personid.js');
+<<<<<<< HEAD
 const similarAPI = require('./api/similar.js')
 const transLangAPI = require('./api/translations.js')
 const topGenreAPI = require('./api/topgenre.js')
@@ -18,6 +19,9 @@ const actorInfoAPI = require('./api/actorinfo.js');
 const moviesForActorAPI = require('./api/moviesForActor.js');
 const crewAPI = require('./api/crew.js');
 const castAPI = require('./api/cast.js');
+=======
+const upcomingAPI = require('./api/upcoming.js')
+>>>>>>> 56bd5fb234b5b6572b56b09a23d270bbe935b84f
 
 // using require create your own js file in api folder and include it here somethingAPI = require(./api/something.js)
 
