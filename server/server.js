@@ -18,6 +18,7 @@ const actorInfoAPI = require('./api/actorinfo.js');
 const moviesForActorAPI = require('./api/moviesForActor.js');
 const crewAPI = require('./api/crew.js');
 const castAPI = require('./api/cast.js');
+const upcomingAPI = require('./api/upcoming.js')
 const genreIdAPI = require('./api/genreid.js');
 const upcomingAPI = require('./api/upcoming.js');
 
@@ -34,7 +35,6 @@ server.use(bodyParser.urlencoded({
 server.post('/webhook', function (req, res) {
     var body, movie, intent, id, result;
     body = req.body;
-    console.log(body);
     movie = body.queryResult.parameters.movie;
     person = body.queryResult.parameters.actor;
     genre = body.queryResult.parameters.genre;
@@ -53,6 +53,7 @@ server.post('/webhook', function (req, res) {
         }],
         "source": ""
     };
+
     if (intent !== "NeedTrending" && intent !== "NeedGenreTopTen" && intent !== "Needupcoming" && (!movie || movie.length < 1) && (!person || person.length < 1)) {
         result.fulfillmentMessages[0].text.text[0] = "Sorry, I don't have any information for this entity";
         res.json(result);
