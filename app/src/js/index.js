@@ -49,7 +49,7 @@ function getQuery() {
         }
     }).then(function(res) {
 
-        var url = "https://flix-bot.herokuapp.com/answer";
+        var url = "https://2c0e2e39.ngrok.io/answer";
         var data = {
             "query" : res.value
         };
