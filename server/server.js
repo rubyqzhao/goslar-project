@@ -11,12 +11,14 @@ const ratingAPI = require('./api/rating.js');
 const altTitleAPI = require('./api/title.js');
 const infoAPI = require('./api/info.js');
 const personIdAPI = require('./api/personid.js');
+const similarAPI = require('./api/similar.js')
 const transLangAPI = require('./api/translations.js')
 const topGenreAPI = require('./api/topgenre.js')
 const actorInfoAPI = require('./api/actorinfo.js'); 
 const moviesForActorAPI = require('./api/moviesForActor.js');
 const crewAPI = require('./api/crew.js');
 const castAPI = require('./api/cast.js');
+const upcomingAPI = require('./api/upcoming.js');
 
 // using require create your own js file in api folder and include it here somethingAPI = require(./api/something.js)
 
@@ -49,7 +51,8 @@ server.post('/webhook', function (req, res) {
         }],
         "source": ""
     };
-    if (intent !== "NeedTrending" && (!movie || movie.length < 1) && (!person || person.length < 1)) {
+
+    if (intent !== "NeedTrending" && intent !== "Needupcoming" && (!movie || movie.length < 1) && (!person || person.length < 1)) {
         result.fulfillmentMessages[0].text.text[0] = "Sorry, I don't have any information for this entity";
         res.json(result);
     } else {
@@ -139,7 +142,6 @@ server.post('/webhook', function (req, res) {
                 break;
 
             case "NeedCrew":
-                console.log("In NeedCrew");
                 idAPI.getMovieId(movie, function (id) {
                     crewAPI.getCrew(id, function (crewResult) {
                         message = crewAPI.getCrewMessage(movie, crewResult);
@@ -159,6 +161,26 @@ server.post('/webhook', function (req, res) {
                     })
                 });
                 break;
+
+            case "Needsimilar":
+                idAPI.getMovieId(movie, function (id) {
+                    similarAPI.getsimilarMovies(id, function (similar) {
+                        msg = similarAPI.getsimilarMessage(similar);
+                        result.fulfillmentMessages[0].text.text[0] = msg;
+                        res.json(result);
+                    })
+                });
+                
+                break;
+            
+             case "Needupcoming":
+                upcomingAPI.getupcomingMovies(id, function (upcoming) {
+                        msg = upcomingAPI.getupcomingMessage(upcoming);
+                        console.log(msg);
+                        result.fulfillmentMessages[0].text.text[0] = msg;
+                        res.json(result);
+                });                
+                break;
             
             case "NeedMoviesForActor":
                 moviesForActorAPI.getMoviesForActor(person, function (movieList) {
@@ -174,6 +196,7 @@ server.post('/webhook', function (req, res) {
         }
     }
 });
+
 
 server.post('/answer', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
