@@ -15,7 +15,7 @@ var similarRequest = {
     json: true
 };
 
-//function to create proper messsage to show trending movies.
+//function to create proper messsage to show similar movies.
 function getsimilarMessage(similarMovies) {
     ans = "Here is a list of top 5 similar movies : </br>";
     list = "";
@@ -26,7 +26,7 @@ function getsimilarMessage(similarMovies) {
     return ans;
 }
 
-// function to call theMovieDb api to get list of trending movies
+// function to call theMovieDb api to get list of similar movies
 function getsimilarMovies(id, callback) {
     similarRequest.url = "https://api.themoviedb.org/3/movie/" + id + "/recommendations";
     request(similarRequest, function (error, response, body) {
