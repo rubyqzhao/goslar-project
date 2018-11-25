@@ -47,7 +47,7 @@ button.botui-actions-buttons-button {
 
 @media (min-width: 400px) {
     .botui-app-container {
-        width: 600px;
+        width: 800px;
         height: 500px;
         margin: 0 auto
     }
@@ -73,7 +73,7 @@ button.botui-actions-buttons-button {
 
 .botui-message-content {
     width: auto;
-    max-width: 85%;
+    max-width: 50%;
     display: inline-block
 }
 

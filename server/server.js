@@ -33,6 +33,7 @@ server.use(bodyParser.urlencoded({
 server.post('/webhook', function (req, res) {
     var body, movie, intent, id, result;
     body = req.body;
+    console.log(body);
     movie = body.queryResult.parameters.movie;
     person = body.queryResult.parameters.actor;
     intent = body.queryResult.intent.displayName;
