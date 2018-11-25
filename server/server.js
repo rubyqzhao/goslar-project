@@ -51,7 +51,7 @@ server.post('/webhook', function (req, res) {
         }],
         "source": ""
     };
-    if (intent !== "NeedTrending" && (!movie || movie.length < 1) && (!person || person.length < 1)) {
+    if (intent !== "NeedTrending" && intent !== "NeedGenreTopTen" && (!movie || movie.length < 1) && (!person || person.length < 1)) {
         result.fulfillmentMessages[0].text.text[0] = "Sorry, I don't have any information for this entity";
         res.json(result);
     } else {
@@ -179,10 +179,12 @@ server.post('/webhook', function (req, res) {
                 break;
 
             case "NeedGenreTopTen":
-                topGenreAPI.getTopGenre(id, function (topGenre) {
-                    msg = topGenreAPI.getGenreMessage(topGenre)
-                    result.fulfillmentMessages[0].text.text[0] = message;
-                    res.json(result);
+                genreIdAPI.getGenreId(genre, function (id) {
+                    topGenreAPI.getTopGenre(id, function (topGenre) {
+                        msg = topGenreAPI.getTopGenreMessage(topGenre);
+                        result.fulfillmentMessages[0].text.text[0] = message;
+                        res.json(result);
+                    });
                 });
                 break;
 

@@ -21,8 +21,6 @@ function getGenreIdMessage(id, genre) {
     return message;
 }
 
-///discover/movie?with_genres=XX&sort_by=popularity.desc
-
 function getGenreId(genre, callback) {
     id = undefined;
     getGenreIdRequest.qs.query = genre;
