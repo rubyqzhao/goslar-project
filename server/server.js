@@ -18,7 +18,6 @@ const actorInfoAPI = require('./api/actorinfo.js');
 const moviesForActorAPI = require('./api/moviesForActor.js');
 const crewAPI = require('./api/crew.js');
 const castAPI = require('./api/cast.js');
-const upcomingAPI = require('./api/upcoming.js')
 const genreIdAPI = require('./api/genreid.js');
 const upcomingAPI = require('./api/upcoming.js');
 
